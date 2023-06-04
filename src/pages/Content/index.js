@@ -14,8 +14,27 @@ const getProductName = () => {
 
 const createContainer = () => {
     console.log("Calling facebook API call");
+
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                const latitude = position.coords.latitude;
+                const longitude = position.coords.longitude;
+
+                chrome.storage.local.set({
+                    latitude: latitude,
+                    longitude: longitude
+                })
+            },
+            (error) => {
+                console.error(error);
+            }
+        );
+    } else {
+        console.error('Geolocation is not supported by this browser.');
+    }
     chrome.storage.local.set({
-        productName: "productName"
+        productName: getProductName()
     }).then(() => {
         console.log("Facebook call values were set with session storage");
 
