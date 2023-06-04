@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import '../../../assets/styles/tailwind.css';
 import Card from "./Card";
-import Geolocation from 'react-geolocation';
 
 const Content = (props) => {
     const [location, setLocation] = useState(null);
@@ -33,14 +32,15 @@ const Content = (props) => {
         location: "Riga",
     }
 
-    return <div>
-        <h1 className="bg-red-500">The product to search in FB: {props.product}</h1>
-        {location && (
-            <p className="mt-2">
-            Your location: Latitude - {location.latitude}, Longitude - {location.longitude}
-            </p>
-        )}
-        {!location && <p className="mt-2">Fetching location...</p>}
+    return <div className="mt-4 mb-4 px-4 py-3 rounded-lg shadow-xl space-y-2">
+        <div>
+            <h3 className="text-sky-700">Consider buying {props.product} used</h3>
+            <span className="text-gray-500">
+                {location
+                    ? `Your location: Latitude - ${location.latitude}, Longitude - ${location.longitude}`
+                    : `Fetching location...`
+                }</span>
+        </div>
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
             <Card {...sampleCardProps}/>
             <Card {...sampleCardProps}/>
