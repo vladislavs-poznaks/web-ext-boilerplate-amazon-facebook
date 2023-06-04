@@ -1,4 +1,3 @@
-import React, {useEffect, useState} from 'react';
 import '../../../assets/styles/tailwind.css';
 import Card from "./Card";
 
