@@ -1,4 +1,4 @@
-console.log('This is the background page. 1.005');
+console.log('This is the background page. 1.010');
 console.log('Put the background scripts here.');
 
 chrome.runtime.onMessage.addListener( (message, sender, sendResponse) => {
@@ -23,7 +23,7 @@ chrome.runtime.onMessage.addListener( (message, sender, sendResponse) => {
         .then(response => {
             console.log("Response from Auth Success:", response)
 
-            chrome.storage.local.set({"facebook_call_response": response}).then((result) => {
+            chrome.storage.local.set({"responseFacebookAPI": response}).then((result) => {
                 console.log("Facebook call response values were set Success");
                 // chrome.runtime.sendMessage('responseFacebookAPI', (response) => {
                 //     // 3. Got an asynchronous response with the data from the service worker
@@ -43,7 +43,7 @@ chrome.runtime.onMessage.addListener( (message, sender, sendResponse) => {
         // })
         .catch(error => {
             console.log("Response from AUTH Fail:", error)
-            chrome.storage.local.set({"facebook_call_response": error}).then((result) => {
+            chrome.storage.local.set({"responseFacebookAPI": error}).then((result) => {
                 console.log("Facebook call response values were set Catch");
                 // chrome.runtime.sendMessage('responseFacebookAPI', (response) => {
                 //     3. Got an asynchronous response with the data from the service worker

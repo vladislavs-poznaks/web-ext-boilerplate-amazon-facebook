@@ -35,41 +35,38 @@ function tryToDrawFacebookAPIObjects(counter){
         setTimeout(function(){
             console.log("Processing facebook API response");
 
-            let missingResult = true;
-
             chrome.storage.local.get(["responseFacebookAPI"]).then((result) => {
-                if (result) {
-                    console.log("RESULT IS TRUE!", result);
-                    missingResult = false;
-                }
+                if (result.responseFacebookAPI) {
+                    console.log("Content:",result.responseFacebookAPI)
 
-                const center = document.getElementById("centerCol");
-                const hr = center?.querySelector("hr");
+                    const center = document.getElementById("centerCol");
+                    const hr = center?.querySelector("hr");
 
-                if (!hr) {
-                    return
-                }
+                    if (!hr) {
+                        return
+                    }
 
-                const extensionContainer = document.createElement("div");
+                    const extensionContainer = document.createElement("div");
 
-                extensionContainer.id = "amazon-fb-market-extension";
+                    extensionContainer.id = "amazon-fb-market-extension";
 
-                hr.insertAdjacentElement("afterend", extensionContainer);
+                    hr.insertAdjacentElement("afterend", extensionContainer);
 
-                const props = {
-                    product: getProductName()
-                }
+                    const props = {
+                        product: getProductName()
+                    }
 
-                const root = createRoot(extensionContainer);
-                root.render(<Content {...props} />);
+                    const root = createRoot(extensionContainer);
+                    root.render(<Content {...props} />);
 
-                if(missingResult) {
+                    chrome.storage.local.set({"responseFacebookAPI": false});
+                } else {
                     counter++;
                     console.log(counter);
                     tryToDrawFacebookAPIObjects(counter);
-                } else {
-                    chrome.storage.local.set({"responseFacebookAPI": false});
                 }
+
+
             });
 
         }, 1000);
