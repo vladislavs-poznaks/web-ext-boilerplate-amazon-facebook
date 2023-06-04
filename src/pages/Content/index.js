@@ -13,6 +13,11 @@ const getProductName = () => {
 }
 
 const createContainer = () => {
+    chrome.runtime.sendMessage('callFacebookAPI', (response) => {
+        // 3. Got an asynchronous response with the data from the service worker
+        console.log('received facebook api response', response);
+    });
+
     const center = document.getElementById("centerCol");
     const hr = center?.querySelector("hr");
 
