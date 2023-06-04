@@ -7,14 +7,19 @@ chrome.runtime.onMessage.addListener( (message, sender, sendResponse) => {
     }
 
     chrome.storage.local.get(["productName","latitude","longitude"]).then((result) => {
-        const product = result.productName;
+        let product = result.productName.trim();
         const latitude = result.latitude;
         const longitude = result.longitude;
 
-        let url = "http://ec2-16-170-232-234.eu-north-1.compute.amazonaws.com/?product="+product;
-        if(latitude && longitude) {
-            url +=  "&latitude="+latitude+"&longitude="+longitude;
+        if (product.length > 10) {
+            product = product.substring(0, 10).concat('...')
         }
+
+        let url = "http://ec2-16-170-232-234.eu-north-1.compute.amazonaws.com/?product="+encodeURIComponent(product);
+        if(latitude && longitude) {
+            url +=  "&latitude="+encodeURIComponent(latitude)+"&longitude="+encodeURIComponent(longitude);
+        }
+        console.log("URL", url)
         // const radius = req.query.radius || 50;
 
         fetch(url, {
