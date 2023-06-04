@@ -1,33 +1,28 @@
-import React from 'react';
-import logo from '../../assets/img/logo.svg';
+import React, {useState} from 'react';
 import '../../assets/styles/tailwind.css';
-import Greetings from '../../containers/Greetings/Greetings';
-import './Popup.css';
 
 const Popup = () => {
-  return (
-    <div className="App">
-      <div className="flex justify-between">
-        <div>one</div>
-        <div>one</div>
-        <div>one</div>
-      </div>
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p className="bg-red-500">
-          EEEdit <code>src/pages/Popup/Popup.jsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React!
-        </a>
-      </header>
-    </div>
-  );
+    const [radius, setRadius] = useState(100)
+
+    return (
+        <div className="px-3 py-2">
+            <div>
+                <span className="text-gray-500">The radius is set to {radius}</span>
+            </div>
+            <label htmlFor="location-range" className="block mb-2 text-sm font-medium text-gray-500">
+                Location radius
+            </label>
+            <input
+                id="location-range"
+                type="range"
+                value={radius}
+                onInput={(e) => setRadius(e.target.value)}
+                min="1"
+                max="250"
+                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+            />
+        </div>
+      );
 };
 
 export default Popup;
