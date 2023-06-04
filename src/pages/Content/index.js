@@ -56,7 +56,7 @@ function tryToDrawFacebookAPIObjects(counter){
 
             chrome.storage.local.get(["responseFacebookAPI"]).then((result) => {
                 if (result.responseFacebookAPI) {
-                    console.log("Content:",result.responseFacebookAPI)
+                    console.log("Content:", result.responseFacebookAPI)
 
                     const center = document.getElementById("centerCol");
                     const hr = center?.querySelector("hr");
@@ -72,7 +72,7 @@ function tryToDrawFacebookAPIObjects(counter){
                     hr.insertAdjacentElement("afterend", extensionContainer);
 
                     const props = {
-                        product: getProductName()
+                        items: result.responseFacebookAPI
                     }
 
                     const root = createRoot(extensionContainer);
