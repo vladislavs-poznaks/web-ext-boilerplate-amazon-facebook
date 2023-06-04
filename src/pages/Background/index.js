@@ -1,4 +1,4 @@
-console.log('This is the background page. 1.020');
+console.log('This is the background page. 1.021');
 console.log('Put the background scripts here.');
 
 chrome.runtime.onMessage.addListener( (message, sender, sendResponse) => {
