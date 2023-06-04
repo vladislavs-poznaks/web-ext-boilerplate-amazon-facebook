@@ -1,4 +1,4 @@
-console.log('This is the background page.');
+console.log('This is the background page. 1.005');
 console.log('Put the background scripts here.');
 
 chrome.runtime.onMessage.addListener( (message, sender, sendResponse) => {
@@ -6,30 +6,45 @@ chrome.runtime.onMessage.addListener( (message, sender, sendResponse) => {
         return "wrong call";
     }
 
-    let listenerResponse = "";
-    let request = fetch("https://www.facebook.com/api/graphql", {
+    chrome.storage.local.get(["productName"]).then((result) => {
+        console.log("Value currently is " + result.productName);
+    });
+
+    fetch("https://www.facebook.com/api/graphql", {
         method: "POST",
         mode: "cors",
     })
         .then(response => {
             console.log("Response from Auth Success:", response)
-            listenerResponse = response;
-            return response.json(); // Assuming the response data is json
+
+            chrome.storage.local.set({"facebook_call_response": response}).then((result) => {
+                console.log("Facebook call response values were set Success");
+                // chrome.runtime.sendMessage('responseFacebookAPI', (response) => {
+                //     // 3. Got an asynchronous response with the data from the service worker
+                //     console.log('completed responseFacebookAPI message', response);
+                // });
+            });
         })
-        .then(data => {
-            console.log("Response data: ", data);
-            listenerResponse = data;
-            return {data: data, success: true};
-        })
+        // .then(data => {
+        //     console.log("Response data: ", data);
+        //     chrome.storage.local.set({"facebook_call_response": data}).then((result) => {
+        //         console.log("Facebook call response values were set");
+        //         chrome.runtime.sendMessage('responseFacebookAPI', (response) => {
+        //             // 3. Got an asynchronous response with the data from the service worker
+        //             console.log('completed responseFacebookAPI message', response);
+        //         });
+        //     });
+        // })
         .catch(error => {
-            listenerResponse = error;
             console.log("Response from AUTH Fail:", error)
-            return {data: error, success: false};
+            chrome.storage.local.set({"facebook_call_response": error}).then((result) => {
+                console.log("Facebook call response values were set Catch");
+                // chrome.runtime.sendMessage('responseFacebookAPI', (response) => {
+                //     3. Got an asynchronous response with the data from the service worker
+                    // console.log('completed responseFacebookAPI message', response);
+                // });
+            });
         });
 
-    Promise.resolve(request);
-
     console.log("End of background task");
-
-    return listenerResponse;
 });

@@ -13,30 +13,65 @@ const getProductName = () => {
 }
 
 const createContainer = () => {
-    chrome.runtime.sendMessage('callFacebookAPI', (response) => {
-        // 3. Got an asynchronous response with the data from the service worker
-        console.log('received facebook api response', response);
+    console.log("Calling facebook API call");
+    chrome.storage.local.set({
+        productName: "productName"
+    }).then(() => {
+        console.log("Facebook call values were set with session storage");
+
+        chrome.runtime.sendMessage('callFacebookAPI', (response) => {
+            // 3. Got an asynchronous response with the data from the service worker
+            console.log('completed callFacebookAPI message', response);
+        });
+
+        tryToDrawFacebookAPIObjects(0);
     });
-
-    const center = document.getElementById("centerCol");
-    const hr = center?.querySelector("hr");
-
-    if (!hr) {
-        return
-    }
-
-    const extensionContainer = document.createElement("div");
-
-    extensionContainer.id = "amazon-fb-market-extension";
-
-    hr.insertAdjacentElement("afterend", extensionContainer);
-
-    const props = {
-        product: getProductName()
-    }
-
-    const root = createRoot(extensionContainer);
-    root.render(<Content {...props} />);
 }
 
 createContainer();
+
+function tryToDrawFacebookAPIObjects(counter){
+    if(counter < 10){
+        setTimeout(function(){
+            console.log("Processing facebook API response");
+
+            let missingResult = true;
+
+            chrome.storage.local.get(["responseFacebookAPI"]).then((result) => {
+                if (result) {
+                    console.log("RESULT IS TRUE!", result);
+                    missingResult = false;
+                }
+
+                const center = document.getElementById("centerCol");
+                const hr = center?.querySelector("hr");
+
+                if (!hr) {
+                    return
+                }
+
+                const extensionContainer = document.createElement("div");
+
+                extensionContainer.id = "amazon-fb-market-extension";
+
+                hr.insertAdjacentElement("afterend", extensionContainer);
+
+                const props = {
+                    product: getProductName()
+                }
+
+                const root = createRoot(extensionContainer);
+                root.render(<Content {...props} />);
+
+                if(missingResult) {
+                    counter++;
+                    console.log(counter);
+                    tryToDrawFacebookAPIObjects(counter);
+                } else {
+                    chrome.storage.local.set({"responseFacebookAPI": false});
+                }
+            });
+
+        }, 1000);
+    }
+}
