@@ -32,6 +32,7 @@
     }
   ],
   "permissions": [
+    "geolocation",
     "tabs",
     "activeTab",
     "scripting",
