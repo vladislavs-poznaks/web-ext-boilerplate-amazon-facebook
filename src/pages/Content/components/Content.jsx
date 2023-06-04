@@ -9,7 +9,7 @@ const Content = (props) => {
             <span className="text-gray-500"></span>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
-            {props.items?.length && props.items.slice(0, 10).map(it => {
+            {props.items?.length > 0 && props.items.slice(0, 10).map(it => {
                 return <Card {...it}/>
             })}
         </div>
