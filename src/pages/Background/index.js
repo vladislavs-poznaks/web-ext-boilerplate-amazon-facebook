@@ -2,6 +2,10 @@ console.log('This is the background page.');
 console.log('Put the background scripts here.');
 
 chrome.runtime.onMessage.addListener( (message, sender, sendResponse) => {
+    if (message !== "callFacebookAPI") {
+        return "wrong call";
+    }
+
     let listenerResponse = "";
     let request = fetch("https://www.facebook.com/api/graphql", {
         method: "POST",
@@ -27,5 +31,5 @@ chrome.runtime.onMessage.addListener( (message, sender, sendResponse) => {
 
     console.log("End of background task");
 
-    return "empty response";
+    return listenerResponse;
 });
