@@ -24,7 +24,7 @@ const createContainer = () => {
 
     extensionContainer.id = "amazon-fb-market-extension";
 
-    center.insertBefore(extensionContainer, hr);
+    hr.insertAdjacentElement("afterend", extensionContainer);
 
     const props = {
         product: getProductName()
