@@ -11,8 +11,8 @@ chrome.runtime.onMessage.addListener( (message, sender, sendResponse) => {
         const latitude = result.latitude;
         const longitude = result.longitude;
 
-        if (product.length > 10) {
-            product = product.substring(0, 10)
+        if (product.length > 40) {
+            product = product.substring(0, 40)
         }
 
         let url = "http://ec2-16-170-232-234.eu-north-1.compute.amazonaws.com/?product="+encodeURIComponent(product);
